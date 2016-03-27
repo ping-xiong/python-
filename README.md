@@ -15,3 +15,6 @@ python.sql
 
 ##关于使用教程
 点击进入[我的博客](http://qq597914752.gotoip1.com/)查看, 或者点击链接：http://www.pingxonline.com/
+
+##课程表web应用
+[查询课程表](http://qq597914752.gotoip1.com/app/timetable/)

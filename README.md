@@ -1,8 +1,13 @@
 # python-Guangxi-University-Of-Technology-Timetable
 python抓取广西科技大学教务信息系统课程表
 ##特性
-1. 中途退出程序再次运行不会抓取到重复课程表
-2.	使用MySQL数据库储存数据，方便管理课程表
+1.中途退出程序再次运行不会抓取到重复课程表
+2.使用MySQL数据库储存数据，方便管理课程表
+
+##使用要求
+1.已安装MYSQL数据库
+2.安装python插件beautiful soup
+3.安装另一个插件PyMySQL
 
 ##数据库文件
 python.sql

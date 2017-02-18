@@ -19,7 +19,7 @@ python.sql
 3. spider.py 抓取课程表
 
 ##关于使用教程
-点击进入[我的博客](http://qq597914752.gotoip1.com/)查看, 或者点击链接：http://www.pingxonline.com/
+点击进入[我的博客](https://pingxonline.com)查看, 或者点击链接：https://pingxonline.com
 
 ##课程表web应用
-[查询课程表](http://qq597914752.gotoip1.com/app/timetable/)
+[查询课程表](https://pingxonline.com/app/timetable/)

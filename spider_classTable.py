@@ -3,6 +3,14 @@ import urllib.request
 from bs4 import BeautifulSoup
 import pymysql.cursors
 
+def openLink(response):
+	try:
+		urllib.urlopen(response)
+		return 0
+	except e:
+		return 1
+	pass
+
 def insertTameTable(classCode,semester):
 	connection = pymysql.connect(
 		host='localhost',
@@ -11,12 +19,26 @@ def insertTameTable(classCode,semester):
 		db='python',
 		charset="utf8",
 		cursorclass=pymysql.cursors.DictCursor)
-
-
-	response = urllib.request.urlopen('http://202.193.177.7:8081/(S(tik2z2rsppomza45zqmxnh55))/web_jxrw/cx_kb_bjkb_bj.aspx?xsbh='+classCode+'&xq='+semester)
+	global html
+	# response = urllib.request.urlopen('http://172.16.129.117/web_jxrw/cx_kb_bjkb_bj.aspx?xsbh='+classCode+'&xq='+semester)
+	response = urllib.request.Request('http://172.16.129.117/web_jxrw/cx_kb_bjkb_bj.aspx?xsbh='+classCode+'&xq='+semester)
+	flag = 1
+	while (flag == 1):
+		try:
+			print("opening link...")
+			response = urllib.request.urlopen(response)
+			flag = 0
+		except:
+			print("failed open the link. retrying...")
+			flag = 1
+		pass
 	if response.code == 200:
 		print ("succeed to open the url, code=",response.code)
-		html = response.read()
+		try:
+			html = response.read()
+		except:
+			print("failed read Content. retrying...")
+		pass
 		soup = BeautifulSoup(
 			html,
 			'html.parser',
@@ -36,8 +58,8 @@ def insertTameTable(classCode,semester):
 						connection.commit()
 				finally:
 					timeTable = []
-					print("insert succeed!")
-				pass
+				print("insert succeed!")
+			pass
 		try:
 			with connection.cursor() as cursor:
 				sql = "INSERT INTO `timetablenote` (`classCode`,`semester`,`note`) VALUES (%s,%s,%s)"
@@ -46,7 +68,6 @@ def insertTameTable(classCode,semester):
 		finally:
 			print("note insert succeed!")
 		pass
-
 	else:
 		print("failed to open the url, code=", response.code)
 		pass

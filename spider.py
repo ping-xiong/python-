@@ -37,7 +37,7 @@ for x in resultClassCode:
     # print("classCode = ",classCode)
     for y in resultSemester:
         semester = y["semester"]
-        # print("Semester = ",semester)
+        # print("Semester = ",semester)pip install PyMySQL
         gradeClassCode = int(classCode[0]+classCode[1])
         gradeSemester = int(semester[0]+semester[1])
         try:
@@ -52,7 +52,17 @@ for x in resultClassCode:
             if resultRepeat is None:
                 arr = [classCode,semester]
                 print(arr)
-                spider_classTable.insertTameTable(classCode,semester)
+                flagTotal = 1
+                while (flagTotal == 1):
+                    try:
+                        spider_classTable.insertTameTable(classCode,semester)
+                        flagTotal = 0
+                        pass
+                    except :
+                        flagTotal = 1
+                        pass
+                    pass
+                
             else:
                 print("The timetable had already exist")
             i += 1

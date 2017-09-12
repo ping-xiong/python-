@@ -19,7 +19,6 @@ def insertTameTable(classCode,semester):
 		db='python',
 		charset="utf8",
 		cursorclass=pymysql.cursors.DictCursor)
-	global html
 	# response = urllib.request.urlopen('http://172.16.129.117/web_jxrw/cx_kb_bjkb_bj.aspx?xsbh='+classCode+'&xq='+semester)
 	response = urllib.request.Request('http://172.16.129.117/web_jxrw/cx_kb_bjkb_bj.aspx?xsbh='+classCode+'&xq='+semester)
 	flag = 1
@@ -31,13 +30,17 @@ def insertTameTable(classCode,semester):
 		except:
 			print("failed open the link. retrying...")
 			flag = 1
-		pass
+	pass
+	flag2 = 1
 	if response.code == 200:
 		print ("succeed to open the url, code=",response.code)
-		try:
-			html = response.read()
-		except:
-			print("failed read Content. retrying...")
+		while (flag2 == 1):
+			try:
+				html = response.read()
+				flag2 = 0
+			except:
+				print("failed read Content. retrying...")
+				flag2 = 1
 		pass
 		soup = BeautifulSoup(
 			html,
@@ -57,8 +60,8 @@ def insertTameTable(classCode,semester):
 						cursor.execute(sql, (classCode,semester,timeTable[0],timeTable[1],timeTable[2],timeTable[3],timeTable[4],timeTable[5],timeTable[6],timeTable[7]))
 						connection.commit()
 				finally:
+					
 					timeTable = []
-				print("insert succeed!")
 			pass
 		try:
 			with connection.cursor() as cursor:
@@ -66,7 +69,8 @@ def insertTameTable(classCode,semester):
 				cursor.execute(sql, (classCode,semester,note.get_text()))
 				connection.commit()
 		finally:
-			print("note insert succeed!")
+			
+			print("[%s %s] insert succeed!" %(classCode, semester))
 		pass
 	else:
 		print("failed to open the url, code=", response.code)
